@@ -192,6 +192,11 @@ int main(int argv, char **argc) {
 	// initialize GraphBLAS
 	GrB_init(GrB_NONBLOCKING);
 
+	GrB_Scalar s;
+	GrB_Scalar_new(&s, GrB_INT64);
+	GrB_Scalar_setElement_INT64(s, 10000);
+	GrB_set(GrB_GLOBAL, s, GxB_HYPER_HASH);
+
 	// matrix dimensions
 	int n = 5;
 	GrB_Index dimensions[15] = {
