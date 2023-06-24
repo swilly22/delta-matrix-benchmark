@@ -1,7 +1,7 @@
 #include "rg_matrix.h"
 #include <stdlib.h>
 
-uint64_t iters = 5000; // number of operations to perform
+uint64_t iters = 100; // number of operations to perform
 
 // create a random matrix with nvals entries
 RG_Matrix random_delta_matrix
@@ -187,11 +187,13 @@ void compute_change_set
 
 int main(int argv, char **argc) {
 	// seed the random number generator
+	// TODO: get seed from command line
 	srand(time(NULL));
 
 	// initialize GraphBLAS
 	GrB_init(GrB_NONBLOCKING);
 
+	// set hyper-hash ratio
 	GrB_Scalar s;
 	GrB_Scalar_new(&s, GrB_INT64);
 	GrB_Scalar_setElement_INT64(s, 10000);
@@ -260,8 +262,8 @@ int main(int argv, char **argc) {
 
 	// print results
 	for(int i = 0; i < n; i++) {
-		GrB_Index nrows = dimensions[i * 2];
-		GrB_Index ncols = dimensions[i * 2 + 1];
+		GrB_Index nrows = dimensions[i * 3];
+		GrB_Index ncols = dimensions[i * 3 + 1];
 		printf("delta: %ld x %ld, %f\n", nrows, ncols, elapsed_delta[i]);
 		printf("sparse: %ld x %ld, %f\n", nrows, ncols, elapsed_sparse[i]);
 		printf("\n");
